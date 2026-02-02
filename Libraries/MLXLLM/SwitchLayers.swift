@@ -105,7 +105,7 @@ class SwitchLinear: Module, Quantizable {
         return result
     }
 
-    func toQuantized(groupSize: Int = 64, bits: Int = 4) -> Module {
+    func toQuantized(groupSize: Int = 64, bits: Int = 4, mode: QuantizationMode = .affine) -> Module {
         QuantizedSwitchLinear(self, groupSize: groupSize, bits: bits)
     }
 }
@@ -125,7 +125,7 @@ class QuantizedSwitchLinear: SwitchLinear {
             other.weight, groupSize: groupSize, bits: bits)
 
         self._scales.wrappedValue = scales
-        self._biases.wrappedValue = biases
+        self._biases.wrappedValue = biases!
 
         super.init(
             inputDims: other.inputDims, outputDims: other.outputDims, numExperts: other.numExperts,

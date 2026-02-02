@@ -267,7 +267,7 @@ public class SmolVLMProcessor: UserInputProcessor {
                 globalImageToken: globalImageToken
             )
 
-            let splitPrompt = decoded.split(by: imageToken, options: .literal)
+            let splitPrompt = decoded.components(separatedBy: imageToken)
             let prompt = splitPrompt.joined(separator: imagePromptString)
             let finalPromptTokens = try tokenizer.encode(text: prompt)
 
@@ -288,7 +288,7 @@ public class SmolVLMProcessor: UserInputProcessor {
             }
 
             // Insert a default system message if the input doesn't have one
-            func messagesWithSystem(_ messages: [Message]) -> [Message] {
+            func messagesWithSystem(_ messages: [MLXLMCommon.Message]) -> [MLXLMCommon.Message] {
                 guard messages.filter { $0["role"] as? String == "system" }.isEmpty else {
                     return messages
                 }
@@ -342,7 +342,7 @@ public class SmolVLMProcessor: UserInputProcessor {
                 fakeToken: fakeImageToken, imageToken: imageToken,
                 globalImageToken: globalImageToken)
 
-            let splitPrompt = decoded.split(by: "User: ", options: .literal)
+            let splitPrompt = decoded.components(separatedBy: "User: ")
             let prompt = splitPrompt[0] + "User: " + videoPromptString + splitPrompt[1]
             let finalPromptTokens = try tokenizer.encode(text: prompt)
 
