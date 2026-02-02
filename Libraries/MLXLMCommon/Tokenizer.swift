@@ -63,9 +63,9 @@ private func updateTokenizerConfig(_ tokenizerConfig: Config) -> Config {
     if let tokenizerClass = tokenizerConfig.tokenizerClass?.stringValue,
         let replacement = replacementTokenizers[tokenizerClass]
     {
-        var dictionary = tokenizerConfig.dictionary
-        dictionary["tokenizer_class"] = replacement
-        return Config(dictionary)
+        var updatedDict = tokenizerConfig.dictionary
+        updatedDict["tokenizer_class"] = replacement
+        return Config(updatedDict)
     }
 
     return tokenizerConfig
